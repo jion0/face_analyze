@@ -11,7 +11,7 @@ int main()
     VideoCapture cap(0); // open the default camera
     if(!cap.isOpened())  // check if we succeeded
      {
-     cout<<"sbai"<<endl;
+     cout<<"fail"<<endl;
      return -1;
      }
      cout<<"succeeded"<<endl;
@@ -20,16 +20,16 @@ int main()
      Mat gray;
      Mat equ;
      
-     CascadeClassifier classf("/usr/share/opencv/haarcascades/haarcascade_frontalface_alt2.xml");
+     CascadeClassifier classf("/usr/share/opencv/haarcascades/haarcascade_frontalface_alt2.xml");  //加入opencv已经训练好的人脸模型
      
      vector<Rect> allFace;
      Mat faceImg;
      vector<uchar> jpgBuf;
      
          // 设置APPID/AK/SK
-    std::string app_id = "35116799";
-    std::string api_key = "60G2osimC65wXDerAqIAqgaG";
-    std::string secret_key = "OtvBE1qaNakEKh6ZArIRli7UtELCMHkC";
+    std::string app_id = "";
+    std::string api_key = "";  //请自己添加
+    std::string secret_key = "";
 
     aip::Face client(app_id, api_key, secret_key);
     
@@ -53,7 +53,7 @@ int main()
 	     	
 	     	base64Img=base64_encode((char *)jpgBuf.data(), jpgBuf.size());
 	     	
-	     	result=client.search(base64Img, "BASE64", "jion", aip::null);
+            result=client.search(base64Img, "BASE64", "", aip::null);   //第三个参数是百度智能云创建人脸库里的组名
 	     	
 	     	if(!result["result"].isNull()&&result["result"]["user_list"][0]["score"]>80)
 	     	{ 
@@ -69,7 +69,7 @@ int main()
      	}
      	else
      	{
-     		cout<<"no face"<<endl;
+            cout<<"no face"<<endl;        //未检测到人脸
      	}
      	imshow("video",equ);
      	waitKey(40);
